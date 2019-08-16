@@ -15,11 +15,20 @@ app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/index.html'))
 });
 
-app.listen(port, function(err) {
+app.get('/users', (req, res) => {
+  // Hard coding for simplicity. Pretend this hits a real database
+  res.json([
+    {"id": 1,"firstname":"Bob","lastname":"Smith","email":"bob@gmail.com"},
+    {"id": 2,"firstname":"Tammy","lastname":"Norton","email":"tnorton@yahoo.com"},
+    {"id": 3,"firstname":"Tina","lastname":"Lee","email":"lee.tina@hotmail.com"}
+  ]);
+});
+
+app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
