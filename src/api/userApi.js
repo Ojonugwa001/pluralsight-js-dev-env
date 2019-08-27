@@ -1,18 +1,33 @@
 import 'whatwg-fetch';
+import getBaseUrl from './baseUrl';
 
-// export getUsers = () => { get('users') }
+const baseUrl = getBaseUrl();
+
 export function getUsers() {
   return get('users');
 }
 
- const get = (url) => {
-  return fetch(url).then(onSuccess, onError);
+export function deleteUser(id) {
+  return del(`users/${id}`);
 }
 
-const onSuccess = (response) => {
+function get(url) {
+  return fetch(baseUrl + url).then(onSuccess, onError);
+}
+
+// Can't call func delete since reserved word.
+function del(url) {
+  const request = new Request(baseUrl + url, {
+    method: 'DELETE'
+  });
+
+  return fetch(request).then(onSuccess, onError);
+}
+
+function onSuccess(response) {
   return response.json();
 }
 
-const onError = (error) => {
+function onError(error) {
   console.log(error); // eslint-disable-line no-console
 }
